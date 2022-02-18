@@ -20,7 +20,7 @@
                   <div class="form-group col-6">
                      <label for="tag">Tag:</label>
                      <select class="form-contol" id="tag" name="tags[]" multiple>
-                        @foreach($data['tags'] as $tag)
+                        @foreach($product['tags'] as $tag)
                               <option value="{{$tag->id}}">{{$tag->name}}</option>
                         @endforeach
                      </select>

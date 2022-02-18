@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Products;
 use App\Http\Controllers\Controller;
 use App\Product;
+use App\ProductTag;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class ProductController extends Controller
 {
@@ -23,20 +26,13 @@ class ProductController extends Controller
     public function index()
     {
         $title = 'Products';
-
-        $products = DB::table('product_tags')
-            ->join('products', 'product_tags.product_id', '=', 'products.id')
-            ->join('tags', 'product_tags.tag_id', '=', 'tags.id')
-            ->select(['products.id', 'products.name as product_name', 'tags.name as tag_name', 'product_tags.tag_id'])
-            ->paginate(10);
-        
-        foreach($products as $product) {
-            $tags = Tag::where('id', $product->tag_id)->get();
-            $data['tags'] = $tags;
-        }
+        $products = Product::paginate(10);
         $tags = Tag::all();
+        foreach($products as $product) {
+            $product['tags'] = ProductTag::where('product_id', $product->id)->join('tags', 'product_tags.tag_id', '=', 'tags.id')->select(['tags.name', 'tags.id'])->get();
+        }
 
-        return view('admin/products.index', compact('title', 'data', 'tags', 'products'));
+        return view('admin/products.index', compact('title', 'product', 'tags', 'products'));
     }
 
     /**
@@ -104,5 +100,11 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'Product deleted with success!');
         }
         return redirect()->back()->with('danger', 'Product not found, try again!');
+    }
+
+    public function exportProductsTable(Request $request)
+    {
+
+        return \Excel::download(new Products,'products'.time().'.xlsx');
     }
 }

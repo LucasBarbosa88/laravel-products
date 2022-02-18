@@ -1,6 +1,8 @@
 @extends('layouts/app')
 
 @section('content')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <div class="container note-details">
     <div class="row">
@@ -16,6 +18,7 @@
         <button class="btn btn-info" data-toggle="modal" data-target="#createProductModal"> New Product</button>
     </div>
     <div class="card card-block card-stretch mt-2">
+        <a href="{{URL::action('Admin\ProductController@exportProductsTable')}}" class="btn btn-warning mb-5 btn-sm" style="margin-top: 20px; max-height: 30px;">Exportar Excel</a>
         <div class="row">
             <div class="col ml-2 mr-2">
                 <table class="table table-striped tbl-server-info mt-4 responsive">
@@ -24,6 +27,7 @@
                             <th style="color: black!important">ID</th>
                             <th style="color: black!important">Name</th>
                             <th style="color: black!important">Tags</th>
+                            <th style="color: black!important">Data</th>
                             <th style="color: black!important">Actions</th>
                         </tr>
                     </thead>
@@ -31,12 +35,13 @@
                     <tbody>
                         <tr>
                             <td>{{$product->id}}</td>
-                            <td>{{$product->product_name}}</td>
+                            <td>{{$product->name}}</td>
                             <td>
-                                @foreach($data['tags'] as $tag)
+                                @foreach($product['tags'] as $tag)
                                     <span class="badge badge-secondary">{{$tag->name}}</span>
                                 @endforeach
                             </td>
+                            <td>{{$product->created_at}}</td>
                             <td>@include('admin/products/partials/actions_product')</td>
                         </tr>
                     </tbody>

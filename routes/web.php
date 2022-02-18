@@ -31,10 +31,12 @@ Route::group(['middleware' => ['auth', 'needsRole:admin'], 'prefix' => 'admin'],
 	Route::put('product/edit/{ID}', 'Admin\ProductController@edit');
 	Route::post('product/update', 'Admin\ProductController@update');
 	Route::get('product/delete/{ID}', 'Admin\ProductController@delete');
+	Route::get('products/export', 'Admin\ProductController@exportProductsTable');
 
 	Route::get('tags', 'Admin\TagController@index')->name('tags');
 	Route::post('tag/create', 'Admin\TagController@store');
 	Route::put('tag/edit/{ID}', 'Admin\TagController@edit');
 	Route::post('tag/update', 'Admin\TagController@update');
 	Route::get('tag/delete/{ID}', 'Admin\TagController@destroy');
+
 });

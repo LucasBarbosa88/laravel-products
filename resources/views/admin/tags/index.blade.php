@@ -23,6 +23,7 @@
                         <tr class="ligth">
                             <th style="color: black!important">ID</th>
                             <th style="color: black!important">Name</th>
+                            <th style="color: black!important">Data</th>
                             <th style="color: black!important">Actions</th>
                         </tr>
                     </thead>
@@ -31,6 +32,7 @@
                         <tr>
                             <td>{{$tag->id}}</td>
                             <td>{{$tag->name}}</td>
+                            <td>{{$tag->created_at}}</td>
                             <td>@include('admin/tags/partials/actions_tag')</td>
                         </tr>
                     </tbody>
