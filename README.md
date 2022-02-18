@@ -8,3 +8,6 @@ Commands to run the project:
 - php artisan migrate
 - php artisan db:seed
 - php artisan serve
+Login Credentials:
+Login: admin@admin.dev
+Password: admin1234
