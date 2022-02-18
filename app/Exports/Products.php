@@ -31,11 +31,17 @@ class Products implements FromView
             $product['tags'] = ProductTag::where('product_id', $product->id)->join('tags', 'product_tags.tag_id', '=', 'tags.id')->select(['tags.name', 'tags.id'])->get();
         }
         if($products->count() > 0){
+            $names = [];
             foreach($products as $product){
+                if($product['tags']) {
+                    foreach($product['tags'] as $tag){
+                        $names[] = $tag->name;
+                    }
+                }
                 $reports[] = [
                     'ID' => $product->id,
                     'NAME' => $product->name,
-                    'TAGS' => $product['tags'],
+                    'TAGS' => json_encode($names),
                 ];
 
             }
